@@ -1,0 +1,4 @@
+Andrew - Initial_Layout and Tile
+Kashaan - Rule and Pieces
+Mark - Display and Input
+Michelle - Board and Presenter
