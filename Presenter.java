@@ -12,22 +12,57 @@ public class Presenter {
     
     void main() {
         
-        /*Contains the control loop through which the game is played. The loop will run
-        until the win condition is met, or the player chooses to exit the game. Each 
-        iteration of the loop is a turn. The loop will run as follows:
-        - Call to GetInput() to get which piece the player is selecting.
-        - Call to FindValidMoves() to find all valid moves the player can make with the piece and update that on the board.
-        - Call to GetInput to find which tile the player wishes to move his or her piece to.
-        - Call to MovePiece() to move the selected piece to the selected destination.
-        - Call to CheckWin() to check if the player has won the game with that move.
-        - Toggle player
-        - Display updated board from new player’s perspective.
-         */
+        Board board = new Board();
+        Display display = new Display();
+        Input input = new Input();
+        Rules rules = new Rules();
+        
+        //Contains the control loop through which the game is played. The loop will run
+        //until the win condition is met, or the player chooses to exit the game.
         
         boolean hasWon = false;
+        activePlayer = 0;
         
         while (!hasWon) {
+            //display board with current player's pieces
+            display.DisplayPieceSelectionOptions(board, activePlayer);
             
+            //prompt player to choose a piece
+            display.PromptPiece();
+            char pieceID = input.GetInput();
+            
+            //get chosen piece
+            selectedPiece = board.GetPiece(pieceID, activePlayer);
+            
+            while (toMove == null) {
+                display.PromptPiece();
+                char pieceID = input.GetInput();
+                selectedPiece = board.GetPiece(pieceID, activePlayer);
+            }
+            
+            //find valid moves
+            rules.FindValidMove(board, selectedPiece);
+            
+            //display board with valid moves
+            display.DisplayMoveOptions(board, selectedPiece);
+            
+            //prompt player to choose a move
+            display.PromptDestination();
+            char desination = input.GetInput();
+            
+            //TODO any validation possible?
+            //TODO how to convert to location??
+            int x;
+            int y;
+            
+            //move piece (including capture if possible)
+            board.MovePiece(selectedPiece, x, y);
+            
+            //check for win condition
+            hasWon = rules.CheckWin(board);
+            
+            //toogle player
+            activePlayer = (activePlayer + 1) % 2;
         }
     }
 }
