@@ -7,28 +7,16 @@ package LinesOfAction;
 
 import java.lang.Math;
 
-public class Rule {
+public class Rules {
 
-    // New rule types can go here
-	public enum FindValidMoves {
-		movementRule,
-        KillCondition,
-		WinCondition
-	}
-
-	Checklist ruleType;
-
- 	public Rule(Checklist tRule) {
- 		this.ruleType = tRule;
+ 	public Rules() {
     }
     
     
     
-    //public void FindValidMoves(Board, Piece)//
-    
-    //{
+    public void FindValidMoves(Board, Piece) {
         
-    //}
+    }
     
 
     // Ruling bulk goes here
