@@ -1,5 +1,8 @@
 package LinesOfAction;
 
+/*
+ * @author Michelle MacKenzie
+ */
 public class Presenter {
 
     private int activePlayer;
