@@ -1,5 +1,8 @@
 package lines.of.action;
 
+/*
+ * @author Michelle MacKenzie
+ */
 public class Board {
 
     private Tile tiles[][];
@@ -17,7 +20,9 @@ public class Board {
     public Piece GetPiece(String ID, int Player) {
         
         //Given the ID of a piece and its player, this function will loop through all tiles to 
-        //search for a piece. It will then return that piece.        
+        //search for a piece. It will then return that piece.
+        ID = Character.toLowerCase(ID);
+        
         for (int x = 0; x < 8; x++) {
             for (int y = 0; y < 8; y++) {
                 
