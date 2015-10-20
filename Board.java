@@ -85,7 +85,7 @@ public class Board {
     }
     
     //this had to be added to the design in order to be able to display the board
-    public Tile[][] getTiles() {
+    public Tile[][] GetTiles() {
         return tiles;
     }
 }
