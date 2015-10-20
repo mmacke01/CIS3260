@@ -1,4 +1,4 @@
-package lines.of.action;
+package LinesOfAction;
 
 /*
  * @author Michelle MacKenzie

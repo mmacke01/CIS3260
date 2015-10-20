@@ -1,4 +1,4 @@
-package lines.of.action;
+package LinesOfAction;
 
 /**
  *
@@ -14,8 +14,8 @@ public class Rules {
     
     
     
-    public void FindValidMoves(Board, Piece) {
-        
+    public void FindValidMoves(Board board, Piece piece) {
+        //x = [0][0], y = [1][0]
     }
     
 

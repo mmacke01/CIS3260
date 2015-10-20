@@ -1,5 +1,4 @@
-
-package lines.of.action;
+package LinesOfAction;
 
 import java.util.Scanner;
 
