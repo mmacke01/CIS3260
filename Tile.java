@@ -1,4 +1,4 @@
-package lines.of.action;
+package LinesOfAction;
 
 /**
  *
@@ -8,7 +8,7 @@ public class Tile {
     Piece piece;
     boolean isOccupied;
     boolean isDestination;
-    
+       
     public Tile(Piece piece, boolean isOccupied, boolean isDestination) {
         this.piece = piece;
         this.isOccupied = isOccupied;
@@ -28,5 +28,13 @@ public class Tile {
     public boolean setPiece(Piece newPiece) {
         this.piece = newPiece;
         return true;
+    }
+    
+    public boolean getIsDestination() {
+        return this.isDestination;
+    }
+    
+    public void setIsDestination(boolean newDestination) {
+        this.isDestination = newDestination;
     }
 }
