@@ -1,3 +1,4 @@
+
 package LinesOfAction;
 
 /**
@@ -11,6 +12,53 @@ public class Display {
     
         char[] names = {'a','b','c','d','e','f','g','h','i'}; 
         
+        Tile[][] myTiles; 
+        myTiles = board.GetTiles();
+        Peice currentPeice;
+        Tile currentTile;
+        int owner = 0;
+        int name = 0;
+        for (int x = 0; x < 8; x++) {
+            for (int y = 0; y < 8; y++) {
+                
+                currentTile = myTiles[x][y];
+                currentPeice = currentTile.lookAtPiece();
+                   
+                if (currentTile.lookAtPiece() != null){
+                    //found a peice
+                    owner = currentTile.lookAtPiece().GetOwner();
+                            if(owner == Player){
+                                System.out.print("("+currentTile.lookAtPiece().GetId()+")");
+                                name++;
+                            }else{
+                                if(Player == 0){
+                                    System.out.print(" x ");
+                                }else{
+                                    System.out.print(" o ");
+                                }
+                            }   
+                }else{
+                    System.out.print(" - ");
+                }
+            }
+            System.out.print("\n");
+	}
+
+        
+        
+/*
+        
+-(a((b)(c)(d)(e)(f) -
+O - - - - - - O
+O - - - - - - O
+O - - - - - - O
+O - - - - - - O
+O - - - - - - O
+O - - - - - - O
+-(g)(h)(i)(j)(k)(l) -
+
+        */
+        
         
 //        Prints out the board from the current player’s perspective to give them their
 //available pieces to select. The current player’s pieces are printed out as their
@@ -20,15 +68,47 @@ public class Display {
         
         
     }
-    /*
-    public void DisplayMoveOptions(Board, SelectedPiece){
+
+    public void DisplayMoveOptions(Board board , Peice SelectedPiece ){
     
-         Prints the board from the current player’s perspective to give them the options of
+        int destNum = 1;
+        Peice currentPeice;
+        Tile[][] myTiles; 
+        myTiles = board.GetTiles();
+        
+        //these for loops populate a char array with the current board state
+        for (int x = 0; x < 8; x++) {
+            for (int y = 0; y < 8; y++) {
+                
+                currentTile = myTiles[x][y];
+                currentPeice = currentTile.lookAtPiece();
+    
+                if(currentTile.GetIsDestination == true){ // if its a destination
+                    System.out.print("["+destNum+"]");
+                    destNum++;
+                    
+                }else{ //not a destination
+                    if(currentPeice!= null){// has a peice
+                        if(currentPeice.GetID() == SelectedPiece.GetID()&& currentPeice.GetOwner() == SelectedPiece.GetOwner()){
+                            System.out.print("("+SelectedPiece.GetOwner()+")");
+                        }else{
+                             System.out.print("("+currentPeice.GetOwner()+")");
+                        }
+                    }else{// no peice 
+                        System.out.print(" - ");
+                    }
+                }
+
+            }
+            System.out.print("\n");
+	}
+        
+        /* Prints the board from the current player’s perspective to give them the options of
 where they can move their currently selected pieces. The available destinations
 are displayed as a number, beginning with 1. Player 1’s pieces are displayed as
 “O”, while Player 2’s pieces are displayed as “X”. The selected piece is displayed
-as usual, except wrapped in parentheses. Empty tiles are displayed as ‘-’.
-    }*/
+as usual, except wrapped in parentheses. Empty tiles are displayed as ‘-’.*/
+    }
     
     public void DisplayRules(){
         System.out.println(
