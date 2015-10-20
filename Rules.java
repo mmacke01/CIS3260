@@ -13,9 +13,76 @@ public class Rules {
     }
     
     
-    
+    //@author Michelle MacKenzie
     public void FindValidMoves(Board board, Piece piece) {
         //x = [0][0], y = [1][0]
+        // 0 = horizontal - 1 = down/right - 2 = vertical - 3 = down/left
+        
+        int xCoord=0, yCoord=0;
+        boolean found=false;
+        
+        for (int x = 0; x < 8; x++) {
+            for (int y = 0; y < 8; y++) {
+                
+                Piece toCheck = tiles[x][y].LookAtPiece();
+                
+                if (toCheck.GetOwner() == Player && toCheck.GetID().equals(ID)) {
+                    xCoord = x;
+                    yCoord = y;
+                    found = true;
+                    break;
+                }
+            }
+            if (found) break;
+        }
+        
+        int[] xDests;
+        int[] yDests;
+        
+        //horizontal+right, down/right+down, vertical+down, down/left+down
+        //horizontal+left, down/right+up, vertical+up, down/left+up
+        for (int i = 0; i < 8; i++) {
+            
+            int dir = i % 4;
+            int nSpaces = CheckPiecesInLine(board, piece, dir);
+            int[1][1] destination = [0][0];
+            boolean isOnBoard = true;
+            
+            switch(i) {
+                case 0:
+                    //
+                    break;
+                case 1:
+                    //
+                    break;
+                case 2:
+                    //
+                    break;
+                case 3:
+                    //
+                    break;
+                case 4:
+                    //
+                    break;
+                case 5:
+                    //
+                    break;
+                case 6:
+                    //
+                    break;
+                case 7:
+                    //
+                    break;
+            }
+            
+            bool isBlocked = CheckBlocked(board, piece, destination);
+            
+            if (isOnBoard && !isBlocked) {
+                //add to xDests/yDests
+            }
+        }
+        
+        board.SetAvailableMoves(xDests, yDests);
     }
     
 
