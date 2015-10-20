@@ -1,4 +1,4 @@
-package LinesOfAction;
+package lines.of.action;
 
 public class Board {
 
@@ -35,28 +35,57 @@ public class Board {
         
         //Given sets of x and y coordinates, the board then updates its tiles to set the
         //specified ones as being possible destinations.
+        for (int i = 0; i < 8; i ++) {
+            for (int j = 0; j < 8; j++) {
+                tiles[i][j].setIsDestination(false);
+            }
+        }
         
-        //TODO
         for (int i = 0; i < x.length; i++) {
-            //tiles[x[i]][y[i]] // set as possible destination
+            tiles[x[i]][y[i]].setIsDestination(true);
         }
     }
     
-    public void MovePiece(Piece piece, int x, int y) {
+    //this had to be changed from the design (and was discussed with the designers) in order to
+    //be able to determine the coordinates for destination
+    public void MovePiece(Piece piece, char destination) {
+        
+        int destIndex = Integer.parseInt(destination);
+        int count = 0;
+        
+        Piece toMove = null;
+        int x=0, y=0;
         
         //Given a piece, the board will search its tiles in search for the piece, and once it is
-        //found, the tile is cleared of that piece and marked as empty. The piece is then 
+        //found, the tile is cleared of that piece and marked as empty. The piece is then
         //insert into the destination tile, as marked by the coordinates from x and y.
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
+                if (tiles[i][j].getIsDestination()) {
+                    count++;
+                    
+                    if (count == destIndex) {
+                        x=i;
+                        y=j;
+                    }
+                }
                 
                 Piece toCheck = tiles[i][j].LookAtPiece();
                 
                 if (toCheck.GetOwner() == piece.GetOwner() && toCheck.GetID().equals(piece.GetID())) {
-                    Piece toMove = tiles[i][j].GetPiece();
-                    tiles[x][y].SetPiece(toMove);
+                    toMove = tiles[i][j].GetPiece();
                 }
+                
+                if (count >= destIndex && toMove != null) break;
             }
+            if (count >= destIndex && toMove != null) break;
         }
+        
+        tiles[x][y].SetPiece(toMove);
+    }
+    
+    //this had to be added to the design in order to be able to display the board
+    public Tile[][] getTiles() {
+        return tiles;
     }
 }

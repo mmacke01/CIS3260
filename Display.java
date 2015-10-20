@@ -1,5 +1,5 @@
 
-package LinesOfAction;
+package lines.of.action;
 
 /**
  *

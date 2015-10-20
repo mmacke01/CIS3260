@@ -1,4 +1,4 @@
-package LinesOfAction;
+package lines.of.action;
 
 /*
  * @author Michelle MacKenzie
@@ -54,18 +54,16 @@ public class Presenter {
             char desination = input.GetInput();
             
             //TODO any validation possible?
-            //TODO how to convert to location??
-            int x;
-            int y;
             
             //move piece (including capture if possible)
-            board.MovePiece(selectedPiece, x, y);
+            board.MovePiece(selectedPiece, destination);
             
             //check for win condition
             hasWon = rules.CheckWin(board);
             
             //toogle player
             activePlayer = (activePlayer + 1) % 2;
+            board.SetAvailableMoves(null, null);
         }
     }
 }
