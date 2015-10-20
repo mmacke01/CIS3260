@@ -20,11 +20,12 @@ public class Initial_Layout {
                     Piece newPiece = new Piece(0, "O");
                     Tile tile = new Tile(newPiece, true, false);
                     tiles[i][j] = tile;
-                }
-                if(i == 1 || i == 6) {
+                }else if(i == 1 || i == 6) {
                     Piece newPiece = new Piece(1, "X");
                     Tile tile = new Tile(newPiece, true, false);
                     tiles[i][j] = tile;
+                } else {
+                    tiles[i][j] = new Tile(null, false, false);
                 }
             }
         }
