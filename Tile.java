@@ -30,10 +30,12 @@ public class Tile {
         return true;
     }
     
+    /*new from the original design*/
     public boolean getIsDestination() {
         return this.isDestination;
     }
     
+    /*new from the original design*/
     public void setIsDestination(boolean newDestination) {
         this.isDestination = newDestination;
     }

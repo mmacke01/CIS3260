@@ -1,4 +1,4 @@
-package lines.of.action;
+package LinesOfAction;
 
 /**
  *
@@ -8,12 +8,26 @@ package lines.of.action;
 
 
 public class Piece {
-    Tile tile;
-    
     int owner;
-    int GetOwner();
+    String id;
     
+    /*andrew welton*/
+    public Piece(int owner, String id) {
+        this.owner = owner;
+        this.id = id;
     }
+    
+    public int GetOwner() {
+        return this.owner;
+    }
+    
+    /*andrew welton
+    not in the original design*/
+    public String getId() {
+        return this.id;
+    }
+    
+}
 
 
 
