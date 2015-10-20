@@ -4,7 +4,7 @@ package lines.of.action;
  *
  * @author Kashaan Ali
  */
-
+package LinesOfAction;
 
 public class CheckWin {
 
