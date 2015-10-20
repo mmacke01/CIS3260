@@ -15,28 +15,28 @@ public class Tile {
         this.isDestination = isDestination;
     }
     
-    public Piece getPiece() {
+    public Piece GetPiece() {
         Piece copy = this.piece;
         this.piece = null;
         return copy;
     }
     
-    public Piece lookAtPiece() {
+    public Piece LookAtPiece() {
         return this.piece;
     }
     
-    public boolean setPiece(Piece newPiece) {
+    public boolean SetPiece(Piece newPiece) {
         this.piece = newPiece;
         return true;
     }
     
     /*new from the original design*/
-    public boolean getIsDestination() {
+    public boolean GetIsDestination() {
         return this.isDestination;
     }
     
     /*new from the original design*/
-    public void setIsDestination(boolean newDestination) {
+    public void SetIsDestination(boolean newDestination) {
         this.isDestination = newDestination;
     }
 }

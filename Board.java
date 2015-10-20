@@ -42,12 +42,12 @@ public class Board {
         //specified ones as being possible destinations.
         for (int i = 0; i < 8; i ++) {
             for (int j = 0; j < 8; j++) {
-                tiles[i][j].setIsDestination(false);
+                tiles[i][j].SetIsDestination(false);
             }
         }
         
         for (int i = 0; i < x.length; i++) {
-            tiles[x[i]][y[i]].setIsDestination(true);
+            tiles[x[i]][y[i]].SetIsDestination(true);
         }
     }
     
@@ -66,7 +66,7 @@ public class Board {
         //insert into the destination tile, as marked by the coordinates from x and y.
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
-                if (tiles[i][j].getIsDestination()) {
+                if (tiles[i][j].GetIsDestination()) {
                     count++;
                     
                     if (count == destIndex) {

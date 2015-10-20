@@ -23,7 +23,7 @@ public class Piece {
     
     /*andrew welton
     not in the original design*/
-    public String getId() {
+    public String GetId() {
         return this.id;
     }
     
