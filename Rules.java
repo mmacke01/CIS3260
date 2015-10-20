@@ -19,6 +19,122 @@ public class Rules {
     }
     
 
+    /*andrewwelton*/
+    public boolean CheckBlocked(Board board, Piece piece, int[][]dest) {
+        int destX = dest[0][0];
+        int destY = dest[1][0];
+        
+        boolean blocked = false;
+        
+        Tile[][] boardTiles = board.getTiles();
+        
+        int srcX = 0;
+        int srcY = 0;
+        for(int i = 0; i < 7; i++) {
+            for(int j = 0; j < 7; j++) {
+                Piece tilePiece = boardTiles[i][j].LookAtPiece();
+                if(tilePiece.GetId() == piece.GetId() && tilePiece.GetOwner() == piece.GetOwner()) {
+                    srcX = i;
+                    srcY = j;
+                }
+            }
+        }
+        //Vertical only
+        if(srcX == destX) {
+            //moving down the board
+            if(srcY < destY) {
+                for(int i = srcY; i < destY; i++) {
+                    Piece tilePiece = boardTiles[srcX][i].LookAtPiece();
+                    if(tilePiece.GetOwner() != piece.GetOwner()) {
+                        blocked = true;
+                        break;
+                    }
+                }
+            } else { //moving up the board
+               for(int i = srcY; i >= destY; i--) {
+                   Piece tilePiece = boardTiles[srcX][i].LookAtPiece();
+                   if(tilePiece.GetOwner() != piece.GetOwner()) {
+                       blocked = true;
+                       break;
+                   }
+               } 
+            }
+        } else if (srcY == destY) { //Horizontal only
+            //moving down the board
+            if(srcX < destX) {
+                for(int i = srcX; i < destX; i++) {
+                    Piece tilePiece = boardTiles[i][srcY].LookAtPiece();
+                    if(tilePiece.GetOwner() != piece.GetOwner()) {
+                        blocked = true;
+                        break;
+                    }
+                }
+            } else { //moving up the board
+                for(int i = srcX; i >= destX; i--) {
+                    Piece tilePiece = boardTiles[i][srcY].LookAtPiece();
+                    if(tilePiece.GetOwner() != piece.GetOwner()) {
+                        blocked = true;
+                        break;
+                    }
+                }
+            }
+        } else { //MAGIC
+            //up-right movement
+            if(srcX < destX && srcY > destY) {
+                int counter = 1;
+                for(int i = srcX + 1; i < destX; i++) {
+                    if(srcY - counter < 0) { 
+                        break;
+                    }
+                    Piece tilePiece = boardTiles[i][srcY - counter].LookAtPiece();
+                    if(tilePiece.GetOwner() != piece.GetOwner()) {
+                        blocked = true;
+                        break;
+                    }
+                    counter ++;
+                }
+            } else if (srcX > destX && srcY > destY) { //up-left movement
+                int counter = 1;
+                for(int i = srcX - 1; i >= destX; i--) {
+                    if(srcY - counter < 0) { 
+                        break;
+                    }
+                    Piece tilePiece = boardTiles[i][srcY - counter].LookAtPiece();
+                    if(tilePiece.GetOwner() != piece.GetOwner()) {
+                        blocked = true;
+                        break;
+                    }
+                }
+            } else if (srcX < destX && srcY < destY) { //down-right movement
+                int counter = 1;
+                for(int i = srcX + 1; i < destX; i++) {
+                    if(srcY + counter > 7) { 
+                        break;
+                    }
+                    Piece tilePiece = boardTiles[i][srcY + counter].LookAtPiece();
+                    if(tilePiece.GetOwner() != piece.GetOwner()) {
+                        blocked = true;
+                        break;
+                    }
+                    counter ++;
+                }
+            } else if (srcX > destX && srcY > destY) {
+                int counter = 1;
+                for(int i = srcX - 1; i >= destX; i--) {
+                    if(srcY + counter > 7) {
+                        break;
+                    }
+                    Piece tilePiece = boardTiles[i][srcY + counter].LookAtPiece();
+                    if(tilePiece.GetOwner() != piece.GetOwner()) {
+                        blocked = true;
+                        break;
+                    }
+                }
+            }
+        }
+        return blocked;
+    }
+
     // Ruling bulk goes here
     public boolean CheckWin(Point origin, Point destination, Player activePlayer, Player inactivePlayer) {
     	int x_Old = origin.getX();
