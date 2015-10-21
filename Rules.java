@@ -249,6 +249,7 @@ public class Rules {
                     break;
                 }
             }
+            return 0;
         }
 
         if (dir == 0) { //horizontally
@@ -285,62 +286,154 @@ public class Rules {
             }
             return count;
         }
+        return 0;
     }
 
+    /**
+     * @author Kashaan
+     * @author Michelle MacKenzie
+     */
     public boolean CheckWin(Board board) {
-        boolean win = false;
-        win = CheckWinPlayer(board,1);
-        if(win) return true;
-        win = CheckWinPlayer(board,2);
-        if(win) return true;
-        return false;
-    }
-
-    public boolean CheckWinPlayer(Board board, int player) {
+        
         Tile tiles[][] = board.GetTiles();
+        boolean win = true;
+        boolean connected = false;
+        int player = 0;
+        
+        //check player 1
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
+                
+                connected = false;
+                int newX = 0, newY = 0;
+                
                 if (tiles[i][j].LookAtPiece().GetOwner() == player) {
-                    if(!connected(i,j,player)) return false;
+                    
+                    int k = 0;
+                    while (k<8 && !connected) {
+                        
+                        switch(k) {
+                            case 0:
+                                newX = i - 1;
+                                newY = j - 1;
+                                break;
+                            case 1:
+                                newX = i - 1;
+                                newY = j;
+                                break;
+                            case 2:
+                                newX = i - 1;
+                                newY = j + 1;
+                                break;
+                            case 3:
+                                newX = i;
+                                newY = j - 1;
+                                break;
+                            case 4:
+                                newX = i;
+                                newY = j + 1;
+                                break;
+                            case 5:
+                                newX = i + 1;
+                                newY = j - 1;
+                                break;
+                            case 6:
+                                newX = i + 1;
+                                newY = j;
+                                break;
+                            case 7:
+                                newX = i + 1;
+                                newY = j + 1;
+                                break;
+                        }
+                        
+                        if ((newX >= 0 && newX < 8) && (newY >= 0 && newY < 8)) {
+                            if (tiles[newX][newY].LookAtPiece().GetOwner() == player) {
+                                connected = true;
+                            }
+                        }
+                        
+                        k++;
+                    }
+                    
+                    if (!connected) {
+                        win = false;
+                        break;
+                    }
                 }
             }
+            if (!win) break;
         }
-        return true;
-    }
-
-    public boolean connected(int i, int j, int player) {
-        int index = 0;
-        boolean[] connect = new boolean[8];
-        connect[index] = checkTile(i - 1, j - 1);
-        index++;
-        connect[index] = checkTile(i - 1, j);
-        index++;
-        connect[index] = checkTile(i - 1, j + 1);
-        index++;
-        connect[index] = checkTile(i, j - 1);
-        index++;
-        connect[index] = checkTile(i, j + 1);
-        index++;
-        connect[index] = checkTile(i + 1, j - 1);
-        index++;
-        connect[index] = checkTile(i + 1, j1);
-        index++;
-        connect[index] = checkTile(i + 1, j + 1);
-        index++;
-        for (int t = 0; t < 8; t++) {
-            if (connect[t]) return true;
+        
+        if (win) return true;
+        
+        //check player 2
+        win = true;
+        player = 1;
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                
+                connected = false;
+                int newX = 0, newY = 0;
+                
+                if (tiles[i][j].LookAtPiece().GetOwner() == player) {
+                    
+                    int k = 0;
+                    while (k<8 && !connected) {
+                        
+                        switch(k) {
+                            case 0:
+                                newX = i - 1;
+                                newY = j - 1;
+                                break;
+                            case 1:
+                                newX = i - 1;
+                                newY = j;
+                                break;
+                            case 2:
+                                newX = i - 1;
+                                newY = j + 1;
+                                break;
+                            case 3:
+                                newX = i;
+                                newY = j - 1;
+                                break;
+                            case 4:
+                                newX = i;
+                                newY = j + 1;
+                                break;
+                            case 5:
+                                newX = i + 1;
+                                newY = j - 1;
+                                break;
+                            case 6:
+                                newX = i + 1;
+                                newY = j;
+                                break;
+                            case 7:
+                                newX = i + 1;
+                                newY = j + 1;
+                                break;
+                        }
+                        
+                        if ((newX >= 0 && newX < 8) && (newY >= 0 && newY < 8)) {
+                            if (tiles[newX][newY].LookAtPiece().GetOwner() == player) {
+                                connected = true;
+                            }
+                        }
+                        
+                        k++;
+                    }
+                    
+                    if (!connected) {
+                        win = false;
+                        break;
+                    }
+                }
+            }
+            if (!win) break;
         }
-        return false;
-    }
-
-    public boolean checkTile(int i, int j, int player, Piece piece) {
-        if (insideArr(i - 1) && insideArr(j - 1)) {
-            return piece.GetOwner() == player;
-        }
-        return false;
-    }
-
-    public boolean insideArr(int tmp) {
-        return (tmp > 0 && tmp < 8);
+        
+        return win;
     }
 }
