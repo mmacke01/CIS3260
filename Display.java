@@ -9,14 +9,11 @@ public class Display {
     
     public void DisplayPieceSelectionOptions(Board board, int Player){
     
-        char[] names = {'a','b','c','d','e','f','g','h','i'}; 
-        
         Tile[][] myTiles; 
         myTiles = board.GetTiles();
         Piece currentPiece;
         Tile currentTile;
         int owner = 0;
-        int name = 0;
         for (int x = 0; x < 8; x++) {
             for (int y = 0; y < 8; y++) {
                 
@@ -25,10 +22,9 @@ public class Display {
                    
                 if (currentTile.LookAtPiece() != null){
                     //found a Piece
-                    owner = currentTile.LookAtPiece().GetOwner();
+                    owner = currentPiece.GetOwner();
                             if(owner == Player){
-                                System.out.print("("+currentTile.LookAtPiece().GetID()+")");
-                                name++;
+                                System.out.print("("+currentPiece.GetID()+")");
                             }else{
                                 if(Player == 0){
                                     System.out.print(" x ");
@@ -88,7 +84,7 @@ O - - - - - - O
                     
                 }else{ //not a destination
                     if(currentPiece!= null){// has a piece
-                        if(currentPiece.GetID() == SelectedPiece.GetID()&& currentPiece.GetOwner() == SelectedPiece.GetOwner()){
+                        if((currentPiece.GetID()).equals(SelectedPiece.GetID()) && currentPiece.GetOwner() == SelectedPiece.GetOwner()){
                             System.out.print("("+SelectedPiece.GetOwner()+")");
                         }else{
                              System.out.print("("+currentPiece.GetOwner()+")");
