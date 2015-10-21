@@ -6,6 +6,7 @@ package LinesOfAction;
  */
 
 import java.lang.Math;
+import java.util.ArrayList;
 
 public class Rules {
 
@@ -18,7 +19,7 @@ public class Rules {
         //x = [0][0], y = [1][0]
         // 0 = horizontal - 1 = down/right - 2 = vertical - 3 = down/left
         
-        int xCoord = 0, yCoord = 0;
+        int xCoord = -1, yCoord = -1;
         boolean found = false;
         Tile[][] tiles = board.GetTiles();
         
@@ -37,8 +38,8 @@ public class Rules {
             if (found) break;
         }
         
-        int[] xDests;
-        int[] yDests;
+        ArrayList<Integer> xDests = new ArrayList<Integer>();
+        ArrayList<Integer> yDests = new ArrayList<Integer>();
         
         //horizontal+right, down/right+down, vertical+down, down/left+down
         //horizontal+left, down/right+up, vertical+up, down/left+up
@@ -46,44 +47,69 @@ public class Rules {
             
             int dir = i % 4;
             int nSpaces = CheckPiecesInLine(board, piece, dir);
-            int[][] destination = [0][0];
-            boolean isOnBoard = true;
+            int[][] destination = new int[2][1];
+            int newX = -1, newY = -1;
             
             switch(i) {
                 case 0:
-                    //
+                    newX = xCoord + nSpaces;
+                    newY = yCoord;
                     break;
                 case 1:
-                    //
+                    newX = xCoord + nSpaces;
+                    newY = yCoord + nSpaces;
                     break;
                 case 2:
-                    //
+                    newX = xCoord;
+                    newY = yCoord + nSpaces;
                     break;
                 case 3:
-                    //
+                    newX = xCoord - nSpaces;
+                    newY = yCoord + nSpaces;
                     break;
                 case 4:
-                    //
+                    newX = xCoord - nSpaces;
+                    newY = yCoord;
                     break;
                 case 5:
-                    //
+                    newX = xCoord - nSpaces;
+                    newY = yCoord - nSpaces;
                     break;
                 case 6:
-                    //
+                    newX = xCoord;
+                    newY = yCoord - nSpaces;
                     break;
                 case 7:
-                    //
+                    newX = xCoord + nSpaces;
+                    newY = yCoord - nSpaces;
                     break;
             }
             
-            bool isBlocked = CheckBlocked(board, piece, destination);
+            boolean isOnBoard = (newX >= 0 && newX < 8) && (newY >= 0 && newY < 8);
             
-            if (isOnBoard && !isBlocked) {
-                //add to xDests/yDests
+            if (isOnBoard) {
+                
+                destination[0][0] = newX;
+                destination[1][0] = newY;
+                
+                boolean isBlocked = CheckBlocked(board, piece, destination);
+                
+                if (!isBlocked) {
+                    xDests.add(newX);
+                    yDests.add(newY);
+                }
             }
         }
         
-        board.SetAvailableMoves(xDests, yDests);
+        int[] xDestinations = new int[xDests.size()];
+        int[] yDestinations = new int[yDests.size()];
+        for (int i=0; i < xDestinations.length; i++)
+        {
+            xDestinations[i] = xDests.get(i).intValue();
+            yDestinations[i] = yDests.get(i).intValue();
+        }
+        
+        board.SetAvailableMoves(xDestinations, yDestinations);
     }
     
 
