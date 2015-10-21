@@ -1,4 +1,3 @@
-
 package LinesOfAction;
 
 /**
@@ -22,13 +21,13 @@ public class Display {
             for (int y = 0; y < 8; y++) {
                 
                 currentTile = myTiles[x][y];
-                currentPiece = currentTile.lookAtPiece();
+                currentPiece = currentTile.LookAtPiece();
                    
-                if (currentTile.lookAtPiece() != null){
+                if (currentTile.LookAtPiece() != null){
                     //found a Piece
-                    owner = currentTile.lookAtPiece().GetOwner();
+                    owner = currentTile.LookAtPiece().GetOwner();
                             if(owner == Player){
-                                System.out.print("("+currentTile.lookAtPiece().GetId()+")");
+                                System.out.print("("+currentTile.LookAtPiece().GetID()+")");
                                 name++;
                             }else{
                                 if(Player == 0){
@@ -42,7 +41,7 @@ public class Display {
                 }
             }
             System.out.print("\n");
-	}
+    }
 
         
         
@@ -80,10 +79,10 @@ O - - - - - - O
         for (int x = 0; x < 8; x++) {
             for (int y = 0; y < 8; y++) {
                 
-                currentTile = myTiles[x][y];
-                currentPiece = currentTile.lookAtPiece();
+                Tile currentTile = myTiles[x][y];
+                currentPiece = currentTile.LookAtPiece();
     
-                if(currentTile.GetIsDestination == true){ // if its a destination
+                if(currentTile.GetIsDestination() == true){ // if its a destination
                     System.out.print("["+destNum+"]");
                     destNum++;
                     
@@ -101,7 +100,7 @@ O - - - - - - O
 
             }
             System.out.print("\n");
-	}
+    }
         
         /* Prints the board from the current player’s perspective to give them the options of
 where they can move their currently selected pieces. The available destinations

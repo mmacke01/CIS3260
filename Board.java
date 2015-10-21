@@ -1,5 +1,8 @@
 package LinesOfAction;
 
+/*
+ * @author Michelle MacKenzie
+ */
 public class Board {
 
     private Tile tiles[][];

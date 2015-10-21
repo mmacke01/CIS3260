@@ -9,7 +9,7 @@ import java.lang.Math;
 
 public class Rules {
 
- 	public Rules() {
+    public Rules() {
     }
     
     
@@ -18,15 +18,16 @@ public class Rules {
         //x = [0][0], y = [1][0]
         // 0 = horizontal - 1 = down/right - 2 = vertical - 3 = down/left
         
-        int xCoord=0, yCoord=0;
-        boolean found=false;
+        int xCoord = 0, yCoord = 0;
+        boolean found = false;
+        Tile[][] tiles = board.GetTiles();
         
         for (int x = 0; x < 8; x++) {
             for (int y = 0; y < 8; y++) {
                 
                 Piece toCheck = tiles[x][y].LookAtPiece();
                 
-                if (toCheck.GetOwner() == Player && toCheck.GetID().equals(ID)) {
+                if (toCheck.GetOwner() == piece.GetOwner() && toCheck.GetID().equals(piece.GetID())) {
                     xCoord = x;
                     yCoord = y;
                     found = true;
@@ -45,7 +46,7 @@ public class Rules {
             
             int dir = i % 4;
             int nSpaces = CheckPiecesInLine(board, piece, dir);
-            int[1][1] destination = [0][0];
+            int[][] destination = [0][0];
             boolean isOnBoard = true;
             
             switch(i) {
@@ -93,14 +94,14 @@ public class Rules {
         
         boolean blocked = false;
         
-        Tile[][] boardTiles = board.getTiles();
+        Tile[][] boardTiles = board.GetTiles();
         
         int srcX = 0;
         int srcY = 0;
         for(int i = 0; i < 7; i++) {
             for(int j = 0; j < 7; j++) {
                 Piece tilePiece = boardTiles[i][j].LookAtPiece();
-                if(tilePiece.GetId() == piece.GetId() && tilePiece.GetOwner() == piece.GetOwner()) {
+                if(tilePiece.GetID() == piece.GetID() && tilePiece.GetOwner() == piece.GetOwner()) {
                     srcX = i;
                     srcY = j;
                 }
@@ -204,90 +205,90 @@ public class Rules {
 
     // Ruling bulk goes here
     public boolean CheckWin(Point origin, Point destination, Player activePlayer, Player inactivePlayer) {
-    	int x_Old = origin.getX();
-   		int y_Old = origin.getY();
-    	int x_New = destination.getX();
-    	int y_New = destination.getY();
-    	//Checker[] activeCheckers = activePlayer.getActiveCheckers();
-    	//Checker[] inactiveCheckers = inactivePlayer.getActiveCheckers();
+        int x_Old = origin.getX();
+        int y_Old = origin.getY();
+        int x_New = destination.getX();
+        int y_New = destination.getY();
+        //Checker[] activeCheckers = activePlayer.getActiveCheckers();
+        //Checker[] inactiveCheckers = inactivePlayer.getActiveCheckers();
      
 
-    	// Check if the piece is going to move to a valid spot
-    	else if (ruleType == FindValidMoves.movementRule || ruleType == FindValidMoves.KillCondition) {
-    		int numOfSpaces;
-    			
-    		// If the move is vertical
-    		if ((x_Old == x_New) && (y_Old != y_New)) {
-    			numOfSpaces = 0;
-    			// Count Horizontal Pieces
-    			for (int i = 0; i < activeCheckers.length; i++) {
-    				if (x_Old == activeCheckers[i].getPosition().getX())
-    					numOfSpaces++;
-    			}
-    			for (int i = 0; i < inactiveCheckers.length; i++) {
-    				if (x_Old == inactiveCheckers[i].getPosition().getX())
-    					numOfSpaces++;
-    			}
-    			if (numOfSpaces == Math.abs(y_Old - y_New))
-    				return true;
-    		}
+        // Check if the piece is going to move to a valid spot
+        else if (ruleType == FindValidMoves.movementRule || ruleType == FindValidMoves.KillCondition) {
+            int numOfSpaces;
+                
+            // If the move is vertical
+            if ((x_Old == x_New) && (y_Old != y_New)) {
+                numOfSpaces = 0;
+                // Count Horizontal Pieces
+                for (int i = 0; i < activeCheckers.length; i++) {
+                    if (x_Old == activeCheckers[i].getPosition().getX())
+                        numOfSpaces++;
+                }
+                for (int i = 0; i < inactiveCheckers.length; i++) {
+                    if (x_Old == inactiveCheckers[i].getPosition().getX())
+                        numOfSpaces++;
+                }
+                if (numOfSpaces == Math.abs(y_Old - y_New))
+                    return true;
+            }
 
-    		// If the move is horizontal
-    		if ((x_Old != x_New) && (y_Old == y_New)) {
-    			numOfSpaces = 0;
-    			// Count Vertical Pieces
-    			for (int i = 0; i < activeCheckers.length; i++) {
-    				if (y_Old == activeCheckers[i].getPosition().getY())
-    					numOfSpaces++;
-    				}
-    			for (int i = 0; i < inactiveCheckers.length; i++) {
-    				if (y_Old == inactiveCheckers[i].getPosition().getY())
-    					numOfSpaces++;
-    				}
-    			if (numOfSpaces == Math.abs(x_Old - x_New))
-    				return true;
-    		}
+            // If the move is horizontal
+            if ((x_Old != x_New) && (y_Old == y_New)) {
+                numOfSpaces = 0;
+                // Count Vertical Pieces
+                for (int i = 0; i < activeCheckers.length; i++) {
+                    if (y_Old == activeCheckers[i].getPosition().getY())
+                        numOfSpaces++;
+                    }
+                for (int i = 0; i < inactiveCheckers.length; i++) {
+                    if (y_Old == inactiveCheckers[i].getPosition().getY())
+                        numOfSpaces++;
+                    }
+                if (numOfSpaces == Math.abs(x_Old - x_New))
+                    return true;
+            }
 
-    		if ((x_Old == x_New) && (y_Old == y_New)) {
-    			return false;
-    		}
+            if ((x_Old == x_New) && (y_Old == y_New)) {
+                return false;
+            }
 
-    		// If the move was diagonal 
-    		if ((x_Old - y_Old) == (x_New - y_New)) {
-				numOfSpaces = 0;
-	    		// Count Diagonal (SW to NE) Pieces
-    			for (int i = 0; i < activeCheckers.length; i++) {
-    				if ((x_Old - y_Old) == (activeCheckers[i].getPosition().getX() - activeCheckers[i].getPosition().getY()))
-    					numOfSpaces++;
-    			}
-    			for (int i = 0; i < inactiveCheckers.length; i++) {
-    				if ((x_Old - y_Old) == (inactiveCheckers[i].getPosition().getX() - inactiveCheckers[i].getPosition().getY()))
-    					numOfSpaces++;
-    			}
-    			System.out.print(" > " + numOfSpaces);
-    			if ((numOfSpaces == Math.abs(x_Old - x_New)) && (numOfSpaces == Math.abs(y_Old - y_New)))
-    				return true;
-    		}
+            // If the move was diagonal 
+            if ((x_Old - y_Old) == (x_New - y_New)) {
+                numOfSpaces = 0;
+                // Count Diagonal (SW to NE) Pieces
+                for (int i = 0; i < activeCheckers.length; i++) {
+                    if ((x_Old - y_Old) == (activeCheckers[i].getPosition().getX() - activeCheckers[i].getPosition().getY()))
+                        numOfSpaces++;
+                }
+                for (int i = 0; i < inactiveCheckers.length; i++) {
+                    if ((x_Old - y_Old) == (inactiveCheckers[i].getPosition().getX() - inactiveCheckers[i].getPosition().getY()))
+                        numOfSpaces++;
+                }
+                System.out.print(" > " + numOfSpaces);
+                if ((numOfSpaces == Math.abs(x_Old - x_New)) && (numOfSpaces == Math.abs(y_Old - y_New)))
+                    return true;
+            }
 
-			if ((x_Old + y_Old) == (x_New + y_New)) {
-				numOfSpaces = 0;
-	    		// Count Diagonal (NW to SE) Pieces
-   		 		for (int i = 0; i < activeCheckers.length; i++) {
-	    			if ((x_Old + y_Old) == (activeCheckers[i].getPosition().getX() + activeCheckers[i].getPosition().getY()))
-	    				numOfSpaces++;
-	    		}
-	    		for (int i = 0; i < inactiveCheckers.length; i++) {
-	    			if ((x_Old + y_Old) == (inactiveCheckers[i].getPosition().getX() + inactiveCheckers[i].getPosition().getY()))
-	    				numOfSpaces++;
-	    		}
-    			System.out.print(" > " + numOfSpaces);
-    			if ((numOfSpaces == Math.abs(x_Old - x_New)) && (numOfSpaces == Math.abs(y_Old - y_New)))
-    				return true;
-			}
-    		return false;
-    	}
+            if ((x_Old + y_Old) == (x_New + y_New)) {
+                numOfSpaces = 0;
+                // Count Diagonal (NW to SE) Pieces
+                for (int i = 0; i < activeCheckers.length; i++) {
+                    if ((x_Old + y_Old) == (activeCheckers[i].getPosition().getX() + activeCheckers[i].getPosition().getY()))
+                        numOfSpaces++;
+                }
+                for (int i = 0; i < inactiveCheckers.length; i++) {
+                    if ((x_Old + y_Old) == (inactiveCheckers[i].getPosition().getX() + inactiveCheckers[i].getPosition().getY()))
+                        numOfSpaces++;
+                }
+                System.out.print(" > " + numOfSpaces);
+                if ((numOfSpaces == Math.abs(x_Old - x_New)) && (numOfSpaces == Math.abs(y_Old - y_New)))
+                    return true;
+            }
+            return false;
+        }
         // Different approach when rule is checking the win condition
-    	else if (ruleType = FindValidMoves.WinCondition) {
+        else if (ruleType = FindValidMoves.WinCondition) {
             return false;
         }
         return false;

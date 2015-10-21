@@ -37,9 +37,9 @@ public class Presenter {
             //get chosen piece
             selectedPiece = board.GetPiece(pieceID, activePlayer);
             
-            while (toMove == null) {
+            while (selectedPiece == null) {
                 display.PromptPiece();
-                char pieceID = input.GetInput();
+                pieceID = input.GetInput();
                 selectedPiece = board.GetPiece(pieceID, activePlayer);
             }
             
@@ -51,7 +51,7 @@ public class Presenter {
             
             //prompt player to choose a move
             display.PromptDestination();
-            char desination = input.GetInput();
+            char destination = input.GetInput();
             
             //TODO any validation possible?
             

@@ -4,9 +4,6 @@ package LinesOfAction;
  *
  * @author kashaan
  */
-
-
-
 public class Piece {
     int owner;
     String id;
@@ -23,13 +20,8 @@ public class Piece {
     
     /*andrew welton
     not in the original design*/
-    public String GetId() {
+    public String GetID() {
         return this.id;
     }
     
 }
-
-
-
-
-

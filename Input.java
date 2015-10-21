@@ -8,9 +8,10 @@ import java.util.Scanner;
  */
 public class Input {
     
-    public void Input(){
+    public Input(){
         
     }
+    
     public char GetInput(){
         
         char in;
