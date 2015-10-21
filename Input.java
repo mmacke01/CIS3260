@@ -34,6 +34,7 @@ public class Input {
                System.out.println("invalid input try again");
             }
 
+        reader.close();
         return in;
     }
 }

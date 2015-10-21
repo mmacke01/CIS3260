@@ -33,14 +33,16 @@ public class Presenter {
             //prompt player to choose a piece
             display.PromptPiece();
             char pieceID = input.GetInput();
+            String strPieceID = Character.toString(pieceID);
             
             //get chosen piece
-            selectedPiece = board.GetPiece(pieceID, activePlayer);
+            selectedPiece = board.GetPiece(strPieceID, activePlayer);
             
             while (selectedPiece == null) {
                 display.PromptPiece();
                 pieceID = input.GetInput();
-                selectedPiece = board.GetPiece(pieceID, activePlayer);
+                strPieceID = Character.toString(pieceID);
+                selectedPiece = board.GetPiece(strPieceID, activePlayer);
             }
             
             //find valid moves

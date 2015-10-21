@@ -40,12 +40,12 @@ public class Board {
         //specified ones as being possible destinations.
         for (int i = 0; i < 8; i ++) {
             for (int j = 0; j < 8; j++) {
-                tiles[i][j].setIsDestination(false);
+                tiles[i][j].SetIsDestination(false);
             }
         }
         
         for (int i = 0; i < x.length; i++) {
-            tiles[x[i]][y[i]].setIsDestination(true);
+            tiles[x[i]][y[i]].SetIsDestination(true);
         }
     }
     
@@ -53,7 +53,7 @@ public class Board {
     //be able to determine the coordinates for destination
     public void MovePiece(Piece piece, char destination) {
         
-        int destIndex = Integer.parseInt(destination);
+        int destIndex = Character.getNumericValue(destination);
         int count = 0;
         
         Piece toMove = null;
@@ -64,7 +64,7 @@ public class Board {
         //insert into the destination tile, as marked by the coordinates from x and y.
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
-                if (tiles[i][j].getIsDestination()) {
+                if (tiles[i][j].GetIsDestination()) {
                     count++;
                     
                     if (count == destIndex) {

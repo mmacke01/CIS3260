@@ -15,7 +15,7 @@ public class Rules {
     
     
     //@author Michelle MacKenzie
-    public void FindValidMoves(Board board, Piece piece) {
+    public void FindValidMove(Board board, Piece piece) {
         //x = [0][0], y = [1][0]
         // 0 = horizontal - 1 = down/right - 2 = vertical - 3 = down/left
         
@@ -127,7 +127,7 @@ public class Rules {
         for(int i = 0; i < 7; i++) {
             for(int j = 0; j < 7; j++) {
                 Piece tilePiece = boardTiles[i][j].LookAtPiece();
-                if(tilePiece.GetID() == piece.GetID() && tilePiece.GetOwner() == piece.GetOwner()) {
+                if(tilePiece.GetID().equals(piece.GetID()) && tilePiece.GetOwner() == piece.GetOwner()) {
                     srcX = i;
                     srcY = j;
                 }
@@ -198,6 +198,7 @@ public class Rules {
                         blocked = true;
                         break;
                     }
+                    counter++;
                 }
             } else if (srcX < destX && srcY < destY) { //down-right movement
                 int counter = 1;
@@ -223,6 +224,7 @@ public class Rules {
                         blocked = true;
                         break;
                     }
+                    counter++;
                 }
             }
         }
