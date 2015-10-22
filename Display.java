@@ -26,7 +26,7 @@ public class Display {
                             if(owner == Player){
                                 System.out.print("("+currentPiece.GetID()+")");
                             }else{
-                                if(Player == 0){
+                                if(owner == 0){
                                     System.out.print(" x ");
                                 }else{
                                     System.out.print(" o ");
@@ -79,16 +79,31 @@ O - - - - - - O
                 currentPiece = currentTile.LookAtPiece();
     
                 if(currentTile.GetIsDestination() == true){ // if its a destination
-                    System.out.print("["+destNum+"]");
+                    
+                    if (currentTile.GetIsOccupied()) {
+                        System.out.print("["+destNum+"]");
+                    } else {
+                        System.out.print("("+destNum+")");
+                    }
                     destNum++;
                     
                 }else{ //not a destination
                     if(currentPiece!= null){// has a piece
-                        if((currentPiece.GetID()).equals(SelectedPiece.GetID()) && currentPiece.GetOwner() == SelectedPiece.GetOwner()){
-                            System.out.print("("+SelectedPiece.GetOwner()+")");
-                        }else{
-                             System.out.print("("+currentPiece.GetOwner()+")");
+                        int Player = currentPiece.GetOwner();
+                        if (currentPiece.GetOwner() == SelectedPiece.GetOwner() && currentPiece.GetID().equals(SelectedPiece.GetID())) {
+                            if(Player == 0){
+                                System.out.print("(x)");
+                            }else{
+                                System.out.print("(o)");
+                            }
+                        } else {
+                            if(Player == 0){
+                                System.out.print(" x ");
+                            }else{
+                                System.out.print(" o ");
+                            }
                         }
+                        
                     }else{// no piece 
                         System.out.print(" - ");
                     }

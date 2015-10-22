@@ -3,6 +3,7 @@ package LinesOfAction;
 /**
  *
  * @author kashaan
+ * @author Andrew Welton
  */
 public class Piece {
     int owner;

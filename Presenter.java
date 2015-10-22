@@ -5,17 +5,19 @@ package LinesOfAction;
  */
 public class Presenter {
 
-    private int activePlayer;
-    private Piece selectedPiece;
+    static private int activePlayer;
+    static private Piece selectedPiece;
     
     public Presenter(int turn, Piece selectedPiece) {
         activePlayer = turn;
         this.selectedPiece = selectedPiece;
     }
     
-    void main() {
+    public static void main(String args[]) {
         
         Board board = new Board();
+        board.InitializeBoard();
+        
         Display display = new Display();
         Input input = new Input();
         Rules rules = new Rules();
@@ -67,5 +69,7 @@ public class Presenter {
             activePlayer = (activePlayer + 1) % 2;
             board.SetAvailableMoves(null, null);
         }
+        
+        display.DisplayWin("The game is now over.");
     }
 }

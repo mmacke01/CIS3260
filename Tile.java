@@ -18,6 +18,7 @@ public class Tile {
     public Piece GetPiece() {
         Piece copy = this.piece;
         this.piece = null;
+        isOccupied = false;
         return copy;
     }
     
@@ -27,6 +28,7 @@ public class Tile {
     
     public boolean SetPiece(Piece newPiece) {
         this.piece = newPiece;
+        isOccupied = true;
         return true;
     }
     
@@ -38,5 +40,10 @@ public class Tile {
     /*new from the original design*/
     public void SetIsDestination(boolean newDestination) {
         this.isDestination = newDestination;
+    }
+    
+    /*new from the original design*/
+    public boolean GetIsOccupied() {
+        return this.isOccupied;
     }
 }

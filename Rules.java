@@ -3,10 +3,12 @@ package LinesOfAction;
 /**
  *
  * @author Kashaan Ali
+ * @author Michelle MacKenzie
+ * @author Andrew Welton
  */
 
-import java.lang.Math;
 import java.util.ArrayList;
+import java.awt.Point;
 
 public class Rules {
 
@@ -28,9 +30,11 @@ public class Rules {
                 
                 Piece toCheck = tiles[x][y].LookAtPiece();
                 
-                if (toCheck.GetOwner() == piece.GetOwner() && toCheck.GetID().equals(piece.GetID())) {
-                    xCoord = x;
-                    yCoord = y;
+                if (toCheck != null && (toCheck.GetOwner() == piece.GetOwner() && toCheck.GetID().equals(piece.GetID()))) {
+                    //TODO
+                    //due to unknown reasons, we need to flip x and y
+                    xCoord = y;
+                    yCoord = x;
                     found = true;
                     break;
                 }
@@ -109,7 +113,7 @@ public class Rules {
             yDestinations[i] = yDests.get(i).intValue();
         }
         
-        board.SetAvailableMoves(xDestinations, yDestinations);
+        board.SetAvailableMoves(yDestinations, xDestinations);
     }
     
 
@@ -122,24 +126,28 @@ public class Rules {
         
         Tile[][] boardTiles = board.GetTiles();
         
+        Piece destinationPiece = boardTiles[destY][destX].LookAtPiece();
+        if (destinationPiece != null && destinationPiece.GetOwner() == piece.GetOwner()) return true;
+        
         int srcX = 0;
         int srcY = 0;
-        for(int i = 0; i < 7; i++) {
-            for(int j = 0; j < 7; j++) {
+        for(int i = 0; i < 8; i++) {
+            for(int j = 0; j < 8; j++) {
                 Piece tilePiece = boardTiles[i][j].LookAtPiece();
-                if(tilePiece.GetID().equals(piece.GetID()) && tilePiece.GetOwner() == piece.GetOwner()) {
+                if(tilePiece != null && (tilePiece.GetID().equals(piece.GetID()) && tilePiece.GetOwner() == piece.GetOwner())) {
                     srcX = i;
                     srcY = j;
                 }
             }
         }
+        
         //Vertical only
         if(srcX == destX) {
             //moving down the board
             if(srcY < destY) {
                 for(int i = srcY; i < destY; i++) {
                     Piece tilePiece = boardTiles[srcX][i].LookAtPiece();
-                    if(tilePiece.GetOwner() != piece.GetOwner()) {
+                    if(tilePiece != null && (tilePiece.GetOwner() != piece.GetOwner())) {
                         blocked = true;
                         break;
                     }
@@ -147,7 +155,7 @@ public class Rules {
             } else { //moving up the board
                for(int i = srcY; i >= destY; i--) {
                    Piece tilePiece = boardTiles[srcX][i].LookAtPiece();
-                   if(tilePiece.GetOwner() != piece.GetOwner()) {
+                   if(tilePiece != null && (tilePiece.GetOwner() != piece.GetOwner())) {
                        blocked = true;
                        break;
                    }
@@ -158,7 +166,7 @@ public class Rules {
             if(srcX < destX) {
                 for(int i = srcX; i < destX; i++) {
                     Piece tilePiece = boardTiles[i][srcY].LookAtPiece();
-                    if(tilePiece.GetOwner() != piece.GetOwner()) {
+                    if(tilePiece != null && (tilePiece.GetOwner() != piece.GetOwner())) {
                         blocked = true;
                         break;
                     }
@@ -166,7 +174,7 @@ public class Rules {
             } else { //moving up the board
                 for(int i = srcX; i >= destX; i--) {
                     Piece tilePiece = boardTiles[i][srcY].LookAtPiece();
-                    if(tilePiece.GetOwner() != piece.GetOwner()) {
+                    if(tilePiece != null && (tilePiece.GetOwner() != piece.GetOwner())) {
                         blocked = true;
                         break;
                     }
@@ -181,7 +189,7 @@ public class Rules {
                         break;
                     }
                     Piece tilePiece = boardTiles[i][srcY - counter].LookAtPiece();
-                    if(tilePiece.GetOwner() != piece.GetOwner()) {
+                    if(tilePiece != null && (tilePiece.GetOwner() != piece.GetOwner())) {
                         blocked = true;
                         break;
                     }
@@ -194,7 +202,7 @@ public class Rules {
                         break;
                     }
                     Piece tilePiece = boardTiles[i][srcY - counter].LookAtPiece();
-                    if(tilePiece.GetOwner() != piece.GetOwner()) {
+                    if(tilePiece != null && (tilePiece.GetOwner() != piece.GetOwner())) {
                         blocked = true;
                         break;
                     }
@@ -207,7 +215,7 @@ public class Rules {
                         break;
                     }
                     Piece tilePiece = boardTiles[i][srcY + counter].LookAtPiece();
-                    if(tilePiece.GetOwner() != piece.GetOwner()) {
+                    if(tilePiece != null && (tilePiece.GetOwner() != piece.GetOwner())) {
                         blocked = true;
                         break;
                     }
@@ -220,7 +228,7 @@ public class Rules {
                         break;
                     }
                     Piece tilePiece = boardTiles[i][srcY + counter].LookAtPiece();
-                    if(tilePiece.GetOwner() != piece.GetOwner()) {
+                    if(tilePiece != null && (tilePiece.GetOwner() != piece.GetOwner())) {
                         blocked = true;
                         break;
                     }
@@ -231,209 +239,157 @@ public class Rules {
         return blocked;
     }
 
-  //kashaanAli
+    /**
+     * @author Kashaan
+     * @author Michelle MacKenzie
+     */
     public int CheckPiecesInLine(Board board, Piece piece, int dir) {
         int x = 0, y = 0, count = 0;
         Tile tiles[][] = board.GetTiles();
-        boolean isfound = false;
+        boolean isFound = false;
 
         //find piece destination
         for (int i = 0; i < 8; i++) {
-            if (isfound) break;
+            if (isFound) break;
             for (int j = 0; j < 8; j++) {
                 Piece toCheck = tiles[i][j].LookAtPiece();
-                if (toCheck.GetOwner() == piece.GetOwner() && toCheck.GetID().equals(piece.GetID())) {
+                if (toCheck != null && (toCheck.GetOwner() == piece.GetOwner() && toCheck.GetID().equals(piece.GetID()))) {
                     x = i;
                     y = j;
-                    isfound = true;
+                    isFound = true;
                     break;
                 }
             }
-            return 0;
         }
-
-        if (dir == 0) { //horizontally
+ 
+        if (dir == 0) { //horizontal
+            
             for (int j = 0; j < 8; j++) {
                 if (tiles[x][j].LookAtPiece() != null) count++;
             }
-            return count;
-        }
-        if (dir == 1) {//vertically
+            
+        } else if (dir == 1) { //diagonally-right
+            
+            int xStart = x, yStart = y;
+            
+            while (xStart > 0 && yStart > 0) {
+                xStart--;
+                yStart--;
+            }
+            
+            while (xStart <= 7 && yStart <= 7) {
+                if (tiles[xStart][yStart].LookAtPiece() != null) count++;
+                xStart++;
+                yStart++;
+            }
+            
+        } else if (dir == 2) { //vertically
+            
             for (int j = 0; j < 8; j++) {
                 if (tiles[j][y].LookAtPiece() != null) count++;
             }
-            return count;
-        }
-
-        if (dir == 2) {//diagonally-left
-            int tmpX = x - Math.min(x, y);
-            int tmpY = y - Math.min(x, y);
-            while (tmpX < 8 && tmpY < 8) {
-                if (tiles[tmpX][tmpY].LookAtPiece() != null) count++;
-                tmpX++;
-                tmpY++;
+            
+        } else if (dir == 3) { //diagonally-left
+            
+            int xStart = x, yStart = y;
+            
+            while (xStart > 0 && yStart < 7) {
+                xStart--;
+                yStart++;
             }
-            return count;
-        }
-
-        if (dir == 3) {//diagonally-right
-            int tmpX = Math.min(8, x + y);
-            int tmpY = Math.abs(y - tmpX + x);
-            while (tmpX > -1 && tmpY < 8) {
-                if (tiles[tmpX][tmpY].LookAtPiece() != null) count++;
-                tmpX++;
-                tmpY++;
+            
+            while (xStart <= 7 && yStart >= 0) {
+                if (tiles[xStart][yStart].LookAtPiece() != null) count++;
+                xStart++;
+                yStart--;
             }
-            return count;
         }
-        return 0;
+        
+        return count;
     }
 
     /**
-     * @author Kashaan
      * @author Michelle MacKenzie
      */
     public boolean CheckWin(Board board) {
         
         Tile tiles[][] = board.GetTiles();
-        boolean win = true;
-        boolean connected = false;
-        int player = 0;
+        Piece toCheck;
+        ArrayList<Point> player1all = new ArrayList<Point>();
+        ArrayList<Point> player2all = new ArrayList<Point>();
+        ArrayList<Point> player1block = new ArrayList<Point>();
+        ArrayList<Point> player2block = new ArrayList<Point>();
+        boolean canContinue = true;
         
-        //check player 1
-        for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 8; j++) {
+        //get total number of pieces for each player
+        for (int x = 0; x < 8; x++) {
+            for (int y = 0; y < 8; y++) {
                 
-                connected = false;
-                int newX = 0, newY = 0;
-                
-                if (tiles[i][j].LookAtPiece().GetOwner() == player) {
-                    
-                    int k = 0;
-                    while (k<8 && !connected) {
-                        
-                        switch(k) {
-                            case 0:
-                                newX = i - 1;
-                                newY = j - 1;
-                                break;
-                            case 1:
-                                newX = i - 1;
-                                newY = j;
-                                break;
-                            case 2:
-                                newX = i - 1;
-                                newY = j + 1;
-                                break;
-                            case 3:
-                                newX = i;
-                                newY = j - 1;
-                                break;
-                            case 4:
-                                newX = i;
-                                newY = j + 1;
-                                break;
-                            case 5:
-                                newX = i + 1;
-                                newY = j - 1;
-                                break;
-                            case 6:
-                                newX = i + 1;
-                                newY = j;
-                                break;
-                            case 7:
-                                newX = i + 1;
-                                newY = j + 1;
-                                break;
-                        }
-                        
-                        if ((newX >= 0 && newX < 8) && (newY >= 0 && newY < 8)) {
-                            if (tiles[newX][newY].LookAtPiece().GetOwner() == player) {
-                                connected = true;
-                            }
-                        }
-                        
-                        k++;
+                toCheck = tiles[x][y].LookAtPiece();
+                if (toCheck != null) {
+                    if (toCheck.GetOwner() == 0) {
+                        Point pt = new Point(x, y);
+                        player1all.add(pt);
+                    } else {
+                        Point pt = new Point(x, y);
+                        player2all.add(pt);
                     }
+                }
+            }
+        }
+        
+        //get block of touching pieces for player 1
+        player1block.add(player1all.remove(0));
+        while (!player1all.isEmpty() && canContinue) {
+            
+            int startSize = player1all.size();
+            
+            for (int i = startSize - 1; i >= 0; i--) {
+                
+                Point toTest = player1all.get(i);
+                
+                for (int j = 0; j < player1block.size(); j++) {
                     
-                    if (!connected) {
-                        win = false;
+                    if (toTest.distance(player1block.get(j)) < 2) {
+                        player1block.add(player1all.remove(i));
                         break;
                     }
                 }
             }
-            if (!win) break;
+            
+            if (player1all.size() == startSize) { //nothing else was added to the block
+                canContinue = false;
+            }
         }
+        if (player1all.isEmpty()) return true;
         
-        if (win) return true;
         
-        //check player 2
-        win = true;
-        player = 1;
-        for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 8; j++) {
+        canContinue = true;
+        //get block of touching pieces for player 2
+        player2block.add(player2all.remove(0));
+        while (!player2all.isEmpty() && canContinue) {
+            
+            int startSize = player2all.size();
+            
+            for (int i = startSize - 1; i >= 0; i--) {
                 
-                connected = false;
-                int newX = 0, newY = 0;
+                Point toTest = player2all.get(i);
                 
-                if (tiles[i][j].LookAtPiece().GetOwner() == player) {
+                for (int j = 0; j < player2block.size(); j++) {
                     
-                    int k = 0;
-                    while (k<8 && !connected) {
-                        
-                        switch(k) {
-                            case 0:
-                                newX = i - 1;
-                                newY = j - 1;
-                                break;
-                            case 1:
-                                newX = i - 1;
-                                newY = j;
-                                break;
-                            case 2:
-                                newX = i - 1;
-                                newY = j + 1;
-                                break;
-                            case 3:
-                                newX = i;
-                                newY = j - 1;
-                                break;
-                            case 4:
-                                newX = i;
-                                newY = j + 1;
-                                break;
-                            case 5:
-                                newX = i + 1;
-                                newY = j - 1;
-                                break;
-                            case 6:
-                                newX = i + 1;
-                                newY = j;
-                                break;
-                            case 7:
-                                newX = i + 1;
-                                newY = j + 1;
-                                break;
-                        }
-                        
-                        if ((newX >= 0 && newX < 8) && (newY >= 0 && newY < 8)) {
-                            if (tiles[newX][newY].LookAtPiece().GetOwner() == player) {
-                                connected = true;
-                            }
-                        }
-                        
-                        k++;
-                    }
-                    
-                    if (!connected) {
-                        win = false;
+                    if (toTest.distance(player2block.get(j)) < 2) {
+                        player2block.add(player2all.remove(i));
                         break;
                     }
                 }
             }
-            if (!win) break;
+            
+            if (player2all.size() == startSize) { //nothing else was added to the block
+                canContinue = false;
+            }
         }
+        if (player2all.isEmpty()) return true;
         
-        return win;
+        return false;
     }
 }

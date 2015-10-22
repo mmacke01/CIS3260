@@ -26,7 +26,7 @@ public class Board {
                 
                 Piece toCheck = tiles[x][y].LookAtPiece();
                 
-                if (toCheck.GetOwner() == Player && toCheck.GetID().equals(ID)) {
+                if (toCheck != null && (toCheck.GetOwner() == Player && toCheck.GetID().equals(ID))) {
                     return toCheck;
                 }
             }
@@ -44,8 +44,10 @@ public class Board {
             }
         }
         
-        for (int i = 0; i < x.length; i++) {
-            tiles[x[i]][y[i]].SetIsDestination(true);
+        if (x != null) {
+            for (int i = 0; i < x.length; i++) {
+                tiles[x[i]][y[i]].SetIsDestination(true);
+            }
         }
     }
     
@@ -75,7 +77,7 @@ public class Board {
                 
                 Piece toCheck = tiles[i][j].LookAtPiece();
                 
-                if (toCheck.GetOwner() == piece.GetOwner() && toCheck.GetID().equals(piece.GetID())) {
+                if (toCheck != null && (toCheck.GetOwner() == piece.GetOwner() && toCheck.GetID().equals(piece.GetID()))) {
                     toMove = tiles[i][j].GetPiece();
                 }
                 
